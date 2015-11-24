@@ -31,10 +31,12 @@
             this.startBlendButton = new System.Windows.Forms.Button();
             this.openOriginalButton = new System.Windows.Forms.Button();
             this.blendImageButton = new System.Windows.Forms.Button();
-            this.originalPictureBox = new System.Windows.Forms.PictureBox();
-            this.finalPictureBox = new System.Windows.Forms.PictureBox();
-            ((System.ComponentModel.ISupportInitialize)(this.originalPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.finalPictureBox)).BeginInit();
+            this.originalImageLabel = new System.Windows.Forms.Label();
+            this.blendImageLabel = new System.Windows.Forms.Label();
+            this.alphaLabel = new System.Windows.Forms.Label();
+            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.timeLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
             // startBlendButton
@@ -67,38 +69,69 @@
             this.blendImageButton.UseVisualStyleBackColor = true;
             this.blendImageButton.Click += new System.EventHandler(this.blendImageButton_Click);
             // 
-            // originalPictureBox
+            // originalImageLabel
             // 
-            this.originalPictureBox.Location = new System.Drawing.Point(26, 25);
-            this.originalPictureBox.Name = "originalPictureBox";
-            this.originalPictureBox.Size = new System.Drawing.Size(135, 142);
-            this.originalPictureBox.TabIndex = 3;
-            this.originalPictureBox.TabStop = false;
+            this.originalImageLabel.AutoSize = true;
+            this.originalImageLabel.Location = new System.Drawing.Point(23, 9);
+            this.originalImageLabel.Name = "originalImageLabel";
+            this.originalImageLabel.Size = new System.Drawing.Size(64, 13);
+            this.originalImageLabel.TabIndex = 3;
+            this.originalImageLabel.Text = "path original";
+            this.originalImageLabel.Click += new System.EventHandler(this.label1_Click);
             // 
-            // finalPictureBox
+            // blendImageLabel
             // 
-            this.finalPictureBox.Location = new System.Drawing.Point(199, 25);
-            this.finalPictureBox.Name = "finalPictureBox";
-            this.finalPictureBox.Size = new System.Drawing.Size(157, 142);
-            this.finalPictureBox.TabIndex = 4;
-            this.finalPictureBox.TabStop = false;
+            this.blendImageLabel.AutoSize = true;
+            this.blendImageLabel.Location = new System.Drawing.Point(23, 35);
+            this.blendImageLabel.Name = "blendImageLabel";
+            this.blendImageLabel.Size = new System.Drawing.Size(57, 13);
+            this.blendImageLabel.TabIndex = 4;
+            this.blendImageLabel.Text = "path blend";
+            // 
+            // alphaLabel
+            // 
+            this.alphaLabel.AutoSize = true;
+            this.alphaLabel.Location = new System.Drawing.Point(23, 204);
+            this.alphaLabel.Name = "alphaLabel";
+            this.alphaLabel.Size = new System.Drawing.Size(33, 13);
+            this.alphaLabel.TabIndex = 5;
+            this.alphaLabel.Text = "alpha";
+            // 
+            // trackBar1
+            // 
+            this.trackBar1.Location = new System.Drawing.Point(26, 220);
+            this.trackBar1.Name = "trackBar1";
+            this.trackBar1.Size = new System.Drawing.Size(104, 45);
+            this.trackBar1.TabIndex = 6;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
+            // 
+            // timeLabel
+            // 
+            this.timeLabel.AutoSize = true;
+            this.timeLabel.Location = new System.Drawing.Point(23, 59);
+            this.timeLabel.Name = "timeLabel";
+            this.timeLabel.Size = new System.Drawing.Size(0, 13);
+            this.timeLabel.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 334);
-            this.Controls.Add(this.finalPictureBox);
-            this.Controls.Add(this.originalPictureBox);
+            this.Controls.Add(this.timeLabel);
+            this.Controls.Add(this.trackBar1);
+            this.Controls.Add(this.alphaLabel);
+            this.Controls.Add(this.blendImageLabel);
+            this.Controls.Add(this.originalImageLabel);
             this.Controls.Add(this.blendImageButton);
             this.Controls.Add(this.openOriginalButton);
             this.Controls.Add(this.startBlendButton);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.originalPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.finalPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -107,8 +140,11 @@
         private System.Windows.Forms.Button startBlendButton;
         private System.Windows.Forms.Button openOriginalButton;
         private System.Windows.Forms.Button blendImageButton;
-        private System.Windows.Forms.PictureBox originalPictureBox;
-        private System.Windows.Forms.PictureBox finalPictureBox;
+        private System.Windows.Forms.Label originalImageLabel;
+        private System.Windows.Forms.Label blendImageLabel;
+        private System.Windows.Forms.Label alphaLabel;
+        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.Label timeLabel;
     }
 }
 

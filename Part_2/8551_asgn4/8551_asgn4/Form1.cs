@@ -16,6 +16,11 @@ namespace _8551_asgn4
     {
         private string originalImageName, blendImageName;
         Bitmap originalImage, blendImage, finalImage;
+        private float alphaTick;
+        Form2 blendWindow = new Form2();
+        Form2 originalWindow = new Form2();
+        Form2 finalWindow = new Form2();
+
         public Form1()
         {
             InitializeComponent();
@@ -23,7 +28,8 @@ namespace _8551_asgn4
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            alphaTick = 0;
+            alphaLabel.Text = "Alpha: " + alphaTick;
         }
 
         private void openOriginalButton_Click(object sender, EventArgs e)
@@ -35,13 +41,17 @@ namespace _8551_asgn4
             {
                 originalImage = (Bitmap)Image.FromFile(originalImageName, true);
                 finalImage = new Bitmap(originalImage);
+                originalImageLabel.Text = "Original: " + originalImageName;
+                originalWindow.Image = (Image)originalImage;
+                originalWindow.Show();
             }
             catch (System.IO.FileNotFoundException)
             {
                 MessageBox.Show("There was an error opening the bitmap." +
                     "Please check the path.");
             }
-            originalPictureBox.Image = (Image)originalImage;
+            
+
         }
 
         private void startBlendButton_Click(object sender, EventArgs e)
@@ -70,12 +80,16 @@ namespace _8551_asgn4
             finalInfo.stride = finalBitmap.Stride;
             finalInfo.linearData = finalBitmap.Scan0;
 
-            Blend(ref originalInfo, ref blendToInfo, ref finalInfo, 0.5f);
+            int microseconds = Blend(ref originalInfo, ref blendToInfo, ref finalInfo, alphaTick);
+
+            timeLabel.Text = "Time elapsed: " + microseconds + " microseconds";
 
             originalImage.UnlockBits(originalBitmap);
             blendImage.UnlockBits(blendToBitmap);
             finalImage.UnlockBits(finalBitmap);
-            finalPictureBox.Image = finalImage;
+            
+            finalWindow.Image = finalImage;
+            finalWindow.Show();
         }
 
         private void blendImageButton_Click(object sender, EventArgs e)
@@ -86,6 +100,10 @@ namespace _8551_asgn4
             try
             {
                 blendImage = (Bitmap)Image.FromFile(blendImageName, true);
+                blendImageLabel.Text = "Blended: " + blendImageName;
+                
+                blendWindow.Image = blendImage;
+                blendWindow.Show();
             }
             catch (System.IO.FileNotFoundException)
             {
@@ -111,11 +129,22 @@ namespace _8551_asgn4
         }
 
         [DllImport("RealBlender.dll", CharSet = CharSet.Ansi)]
-        private extern static void Blend(
+        private extern static int Blend(
             ref ImageInfo original
             , ref ImageInfo blendTo
             , ref ImageInfo finalImage
             , float blend_factor
             );
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            alphaTick = (float)trackBar1.Value/(float)trackBar1.Maximum;
+            alphaLabel.Text = "Alpha: " + alphaTick;
+        }
     }
 }
