@@ -1,15 +1,17 @@
 ﻿// Blender.cpp : Defines the exported functions for the DLL application.
 //
 
-#include <chrono>
 #include "pch.h"
 #include "Blender.h"
 
+#include <Windows.h>
+
 EXTERN_C __declspec(dllexport) int __stdcall Blend(MyImage* original, MyImage* blendTo, MyImage* finalImage, float blend_factor) {
 	float inv_blend_factor = 1.0f - blend_factor;
-	std::chrono::microseconds microseconds;
-	std::chrono::high_resolution_clock::time_point before = std::chrono::high_resolution_clock::now();
-	
+
+	LARGE_INTEGER before, after, frequency, elapsed_micros;
+	QueryPerformanceFrequency(&frequency);
+	QueryPerformanceCounter(&before);
 
 	for (int i = 0; i < blendTo->height; i++) {
 		unsigned char* original_scanline_start = (unsigned char*)original->linearData + (original->stride * i);
@@ -24,8 +26,7 @@ EXTERN_C __declspec(dllexport) int __stdcall Blend(MyImage* original, MyImage* b
 			}
 		}
 	}
-	std::chrono::high_resolution_clock::time_point after = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> temp = std::chrono::duration_cast<std::chrono::duration<double>>(after - before);
-	microseconds = std::chrono::duration_cast<std::chrono::microseconds> (after - before);
-	return (int)(after.time_since_epoch().count() - before.time_since_epoch().count());
+	QueryPerformanceCounter(&after);
+	elapsed_micros.QuadPart = after.QuadPart - before.QuadPart;
+	return elapsed_micros.QuadPart * 1000000 / frequency.QuadPart;
 }
