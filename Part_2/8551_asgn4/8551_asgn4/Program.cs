@@ -16,7 +16,7 @@ namespace _8551_asgn4
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(new Blender());
         }
     }
 }
