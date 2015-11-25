@@ -12,24 +12,31 @@ using System.Runtime.InteropServices;
 
 namespace _8551_asgn4
 {
-    public partial class Form1 : Form
+    public partial class Blender : Form
     {
+        private enum BlendFunc { CPP, MMX, SSE };
         private string originalImageName, blendImageName;
         Bitmap originalImage, blendImage, finalImage;
         private float alphaTick;
         Form2 blendWindow = new Form2();
         Form2 originalWindow = new Form2();
         Form2 finalWindow = new Form2();
+        private BlendFunc func;
 
-        public Form1()
+        public Blender()
         {
             InitializeComponent();
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            radioButton1.Checked = true;
             alphaTick = 0;
             alphaLabel.Text = "Alpha: " + alphaTick;
+            func = BlendFunc.CPP;
+            blendWindow.Text = "Blend Image";
+            originalWindow.Text = "Original Image";
+            finalWindow.Text = "Final Image";
         }
 
         private void openOriginalButton_Click(object sender, EventArgs e)
@@ -42,6 +49,7 @@ namespace _8551_asgn4
                 originalImage = (Bitmap)Image.FromFile(originalImageName, true);
                 finalImage = new Bitmap(originalImage);
                 originalImageLabel.Text = "Original: " + originalImageName;
+                originalWindow.Size = originalImage.Size;
                 originalWindow.Image = (Image)originalImage;
                 originalWindow.Show();
             }
@@ -80,14 +88,28 @@ namespace _8551_asgn4
             finalInfo.stride = finalBitmap.Stride;
             finalInfo.linearData = finalBitmap.Scan0;
 
-            int microseconds = Blend(ref originalInfo, ref blendToInfo, ref finalInfo, alphaTick);
+
+            int microseconds = -1;
+            switch(func)
+            {
+                case BlendFunc.CPP:
+                    microseconds = Blend(ref originalInfo, ref blendToInfo, ref finalInfo, alphaTick);
+                    break;
+                case BlendFunc.MMX:
+                    microseconds = Blend_MMX(ref originalInfo, ref blendToInfo, ref finalInfo, alphaTick);
+                    break;
+                case BlendFunc.SSE:
+                    microseconds = Blend_SSE(ref originalInfo, ref blendToInfo, ref finalInfo, alphaTick);
+                    break;
+            }
 
             timeLabel.Text = "Time elapsed: " + microseconds + " microseconds";
 
             originalImage.UnlockBits(originalBitmap);
             blendImage.UnlockBits(blendToBitmap);
             finalImage.UnlockBits(finalBitmap);
-            
+
+            finalWindow.Size = finalImage.Size;
             finalWindow.Image = finalImage;
             finalWindow.Show();
         }
@@ -101,7 +123,7 @@ namespace _8551_asgn4
             {
                 blendImage = (Bitmap)Image.FromFile(blendImageName, true);
                 blendImageLabel.Text = "Blended: " + blendImageName;
-                
+                blendWindow.Size = blendImage.Size;
                 blendWindow.Image = blendImage;
                 blendWindow.Show();
             }
@@ -135,6 +157,20 @@ namespace _8551_asgn4
             , ref ImageInfo finalImage
             , float blend_factor
             );
+        [DllImport("RealBlender.dll", CharSet = CharSet.Ansi)]
+        private extern static int Blend_MMX(
+            ref ImageInfo original
+            , ref ImageInfo blendTo
+            , ref ImageInfo finalImage
+            , float blend_factor
+            );
+        [DllImport("RealBlender.dll", CharSet = CharSet.Ansi)]
+        private extern static int Blend_SSE(
+            ref ImageInfo original
+            , ref ImageInfo blendTo
+            , ref ImageInfo finalImage
+            , float blend_factor
+            );
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -145,6 +181,26 @@ namespace _8551_asgn4
         {
             alphaTick = (float)trackBar1.Value/(float)trackBar1.Maximum;
             alphaLabel.Text = "Alpha: " + alphaTick;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+        
+        }
+
+        private void radioButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            func = BlendFunc.CPP;
+        }
+
+        private void radioButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            func = BlendFunc.MMX;
+        }
+
+        private void radioButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            func = BlendFunc.SSE;
         }
     }
 }

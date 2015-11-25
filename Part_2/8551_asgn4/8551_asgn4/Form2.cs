@@ -14,7 +14,10 @@ namespace _8551_asgn4
     {
         public Image Image
         {
-            set { pictureBox1.Image = value; }
+            set {
+                pictureBox1.Size = value.Size;
+                pictureBox1.Image = value; 
+            }
         }
 
         public Form2()
