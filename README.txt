@@ -3,7 +3,7 @@
 ############ Authors #############
 ##################################
 Brian Thomas A00861166
-Matt Ku      A00xxxxxx
+Matt Ku      A00795612
 ##################################
 ############### Q1 ###############
 ##################################
@@ -47,6 +47,20 @@ Please make sure to run "Build Solution" before running the app, to make sure th
 ##################################
 ############### Q6 ###############
 ##################################
+C++ time: 4400 - 4770 microseconds
+MMX time: 689 - 800 microseconds
+SSE time: 740 - 800 microseconds
+
+MMX - 45 lines
+SSE - 43 lines
+
+MMX seems to be slightly faster.
+Both give significant performance increases
+over C++ code.
+
+MMX seems to have a few extra
+instructions that may not be necessary,
+yet it runs faster.
 
 See <./Part_2/8551_asgn4> visual studio solution.
 Please make sure to run "Build Solution" before running the app, to make sure the dll gets built.
