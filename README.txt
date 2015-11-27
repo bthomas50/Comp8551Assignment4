@@ -47,20 +47,15 @@ Please make sure to run "Build Solution" before running the app, to make sure th
 ##################################
 ############### Q6 ###############
 ##################################
-C++ time: 4400 - 4770 microseconds
-MMX time: 689 - 800 microseconds
-SSE time: 740 - 800 microseconds
+(using pairs of images 1024x768)
+C++ time: ~8000 microseconds
+MMX time: ~6700 microseconds
+SSE time: ~3950 microseconds
 
-MMX - 45 lines
-SSE - 43 lines
 
-MMX seems to be slightly faster.
-Both give significant performance increases
-over C++ code.
 
-MMX seems to have a few extra
-instructions that may not be necessary,
-yet it runs faster.
+MMX seems to be only slightly faster than C++.
+SSE is about twice as fast as MMX (we can do twice as many pixels at once!
 
 See <./Part_2/8551_asgn4> visual studio solution.
 Please make sure to run "Build Solution" before running the app, to make sure the dll gets built.
