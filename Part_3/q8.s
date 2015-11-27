@@ -11,20 +11,20 @@ main:
 	movq	%rsp, %rbp
 	.cfi_def_cfa_register 6
 	subq	$16, %rsp
-	#
-	# operate()
-	#
+	;s
+	; operate()
+	;
 	call	_Z7operatev
-	#
-	# int q = operate_inline()
-	#
+	;
+	; int q = operate_inline()
+	;
 	movl	$3, -8(%rbp)
 	movl	$4, -4(%rbp)
 	movl	-8(%rbp), %eax
 	imull	-4(%rbp), %eax
-	#
-	#
-	#
+	;
+	;
+	;
 	movl	%eax, -12(%rbp)
 	cmpl	$0, -12(%rbp)
 	sete	%al
