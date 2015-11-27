@@ -51,8 +51,7 @@ Please make sure to run "Build Solution" before running the app, to make sure th
 C++ time: ~8000 microseconds
 MMX time: ~6700 microseconds
 SSE time: ~3950 microseconds
-
-
+(originally, we used the inline assembly from the example, which ran at ~1000 microseconds.)
 
 MMX seems to be only slightly faster than C++.
 SSE is about twice as fast as MMX (we can do twice as many pixels at once!
